@@ -6,6 +6,12 @@ CLIENT_DIRECTORY="$1"
 
 cd "$CLIENT_DIRECTORY" || exit
 # Gathering all of the contents from the log files and piping them into extraction command
-cat var/log/* | awk  'match($0, /^([a-zA-Z]+)[ ]+([0-9]+ [0-9][0-9]):[0-9]+ [a-zA-Z]+ sshd\[[0-9]+\]:Failed password for[A-Za-z]* ([A-Zz-A_0-9]+) from ([0-9]+.[0-9]+.[0-9]+.[0-9]+)/,groups) {print groups[1], groups[2], groups[3], groups[4]}'  > failed_login_data.txt
+cat */var/log/* |\
+	awk '/^([A-Za-z]+)/ && $6~/Failed/ && $9~/invalid/ {print $1, $2, $3, $11, $13}' \
+	> failed_login_data.txt
 
+# awk for failed login attempts that are actual user names in the lab
+cat */var/log/* |\
+ 	awk '/^([A-Za-z]+)/ && $6~/Failed/ && $10~/from/ {print $1, $2, $3, $9, $11}' \
+ 	> failed_login_data.txt 
 
