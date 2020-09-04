@@ -13,7 +13,7 @@ cd "$DIRECTORY_NAME" || exit
 # Likely be in MM/DD/YYYY (USA) or YYYY/MM/DD (EU) format
 cat ./*/failed_login_data.txt \
 	| awk ' {print $3} ' | sort | uniq -c | awk ' { print "data.addRow( [\x27"$2"\x27, "$1"]);"}' \
-	> temp_username_dist.html
+	> temp_hours_dist.html
 
 # Using wrap contentssh to add footer and header to usernames
 cd "$HERE" || exit
