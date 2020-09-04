@@ -8,21 +8,21 @@ cd "$DIRECTORY_NAME" || exit
 
 # Extracting the appropriate column to grab the hour using awk
 cat ./*/failed_login_data.txt \
-	| awk ' {print $5} ' | sort | uniq -c | awk ' { print "data.addRow( [\x27"$2"\x27, "$1"]);"}' \
-	> country_codes.txt
+	| awk ' {print $5} ' | sort > temp_country_IP.html
+sort "$HERE"/etc/country_IP_map.txt
+       	join -1 2 -2 2 temp_country_IP.html "$HERE"/etc/country_IP_map.txt > temp2_country_IP.html 
+cat temp2_country_IP.html | awk '{print $2}' | sort | uniq -c\
+	| awk ' { print "data.addRow( [\x27"$2"\x27, "$1"]);"}' \
+	> temp_country_dist.html
 
-# Iterating over the contents of country_codes.txt and calling geoiplookup
-# to map the ip address to a country and using uniq to count the occurences
-for p in $(country_codes.txt);
-do
-	geoiplookup p | uniq -c > temp_country_dist.html;
-done
+
 
 # Using wrap contentssh to add footer and header to usernames
 cd "$HERE" || exit
 
-./bin/wrap_contents.sh "$DIRECTORY_NAME"/temp_hours_dist.html html_components/hours_dist \
-	"$DIRECTORY_NAME"/hours_dist.html
+./bin/wrap_contents.sh "$DIRECTORY_NAME"/temp_country_dist.html html_components/country_dist \
+	"$DIRECTORY_NAME"/country_dist.html
 
 # Clean up temp files
-rm "$DIRECTORY_NAME"/temp_hours_dist.html
+#rm "$DIRECTORY_NAME"/temp_country_dist.html
+
