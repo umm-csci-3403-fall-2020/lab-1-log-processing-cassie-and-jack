@@ -6,6 +6,7 @@ HERE=$(pwd)
 #************MAIN
 
 cd "$DIRECTORY_NAME" || exit
+ls -R > /tmp/country_output.txt
 cat ./*/failed_login_data.txt | awk '{print $5}' | sort > "$HERE"/temp_check.txt 
 join "$HERE"/temp_check.txt "$HERE"/etc/country_IP_map.txt | awk '{print $2} '| sort | uniq -c \
 	| awk ' { print "data.addRow([\x27"$2"\x27, "$1"]);"} ' > temp_country_dist.html
