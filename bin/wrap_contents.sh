@@ -1,12 +1,9 @@
 #!/bin/bash
-FILE_NAME=$1
-SPECIFIER=$2
-RESULTING_FILE_NAME=$3
-##### MAIN #####
+# This script takes in a header, footer, and main text and wraps them
 
-cat "$SPECIFIER"_header.html  "$FILE_NAME" "$SPECIFIER"_footer.html >> "$RESULTING_FILE_NAME"
+HEAD="$2"_header.html
+FOOT="$2"_footer.html
+# making a file out of the resulting file name input
+touch "$3"
 
-
-
-
-~             
+cat "$HEAD" "$1" "$FOOT" > "$3"
