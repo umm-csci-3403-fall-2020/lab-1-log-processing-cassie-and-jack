@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 ###### CONSTANTS ########
 HERE=$(pwd)
-# Target directories for decompressing
-DIR_1="$1"
-DIR_2="$2"
-DIR_3="$3"
 
 ######## MAIN ########
 
@@ -17,14 +13,14 @@ do
 	BASENAME=$(basename -s .tgz "$d")
 	mkdir "$SCRATCH"/"$BASENAME"
 	tar -xzf "$d" -C  "$SCRATCH"/"$BASENAME"
-        ./bin/process_client_logs.sh "$SCRATCH"/"$BASENAME"
+        bin/process_client_logs.sh "$SCRATCH"/"$BASENAME"
 		
 done	  
 	
-./bin/create_username_dist.sh "$SCRATCH"
-./bin/create_hours_dist.sh "$SCRATCH"
-./bin/create_country_dist.sh "$SCRATCH"
-./bin/assemble_reports.sh "$SCRATCH"
+bin/create_username_dist.sh "$SCRATCH"
+bin/create_hours_dist.sh "$SCRATCH"
+bin/create_country_dist.sh "$SCRATCH" 
+bin/assemble_report.sh "$SCRATCH"
 
 mv "$SCRATCH"/failed_login_summary.html "$HERE"
 
