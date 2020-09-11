@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #***********CONSTANTS
 DIRECTORY_NAME=$1
