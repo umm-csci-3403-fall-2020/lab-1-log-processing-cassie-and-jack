@@ -1,4 +1,4 @@
-
+#!/bin/bash
 #***********CONSTANTS
 DIRECTORY_NAME=$1
 HERE=$(pwd) 
@@ -8,7 +8,7 @@ cd "$DIRECTORY_NAME" || exit
 # take the usernames from failed_login_data.txt, sort, and count occurances of each username
 # second awk command then prints desired output into code that will create pie char
 cat ./*/failed_login_data.txt \
-	| awk ' {print $4} ' | sort | uniq -c | awk ' { print "data.addRow( [\x27"$2"\x27, "$1"]);"}' \
+	| awk ' {print $4} ' | sort | uniq -c | awk ' { print "data.addRow([\x27"$2"\x27, "$1"]);"}' \
 	> temp_username_dist.html
 
 # Using wrap contentssh to add footer and header to usernames
