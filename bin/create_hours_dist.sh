@@ -17,7 +17,7 @@ cat ./*/failed_login_data.txt \
 
 # Using wrap contentssh to add footer and header to usernames
 cd "$HERE" || exit
-bin/wrap_contents.sh "$DIRECTORY_NAME"/temp_hours_dist.html html_components/hours_dist \
+./bin/wrap_contents.sh "$DIRECTORY_NAME"/temp_hours_dist.html html_components/hours_dist \
 	"$DIRECTORY_NAME"/hours_dist.html
 
 # clean up temp files                                                             

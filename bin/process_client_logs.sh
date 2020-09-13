@@ -1,17 +1,24 @@
 #!/bin/bash
 
-######### CONSTANTS ######
-CLIENT_DIRECTORY="$1"
-######### MAIN #########
+##########CONSTANTS
 
-cd "$CLIENT_DIRECTORY" || exit
-# Gathering all of the contents from the log files and piping them into extraction command
+DIRECTORY_NAME="$1"
+
+
+### MAIN #######
+cd "$DIRECTORY_NAME" || exit
+
+# Gathering all desired contents from log files and piping into extraction 
+
 cat ./*var/log/* |\
-	awk '/^([A-Z]+)/ && $6~/Failed/ && $9~/invalid/ {print $1, $2, $3, $11, $13}' \
+	awk ' $6~/Failed/ && $9~/invalid/ {print $1, $2, $3, $11, $13}' \
+	|sed -e 's/\:\(..\):\(..\)//g' > failed_login_data.txt
+
+# second awk for failed login attempts
+
+cat ./*var/log/* |\
+	awk ' $6~/Failed/ && $10~/from/ {print $1, $2, $3, $9, $11}' \
 	| sed -e 's/\:\(..\):\(..\)//g' >> failed_login_data.txt
 
-# awk for failed login attempts that are actual user names in the lab
-cat ./*var/log/* |\
- 	awk '/^([A-Z]+)/ && $6~/Failed/ && $10~/from/ {print $1, $2, $3, $9, $11}' \
-	| sed -e 's/\:\(..\):\(..\)//g' >> failed_login_data.txt 
 
+cd "$HERE" || exit
